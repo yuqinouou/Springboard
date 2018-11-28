@@ -14,17 +14,15 @@ This report will aim at one specific type of posts - _"questions"_, and will try
 > There exist terrible posts on _Stack Overflow_. We would need to identify them.
 - Who is your client and why do they care about this problem? In other words, what will your client DO or DECIDE based on your analysis that they wouldn’t have otherwise?
 > The client is _Stack Overflow_. They care about this problem since bad posts do damage to the community and waste resource.
-They can improve the quality of posts by closing bad posts and pushing good posts to users. They can also construct a guideline for 
-content quality, given insights from data.
+They can improve the quality of posts by closing bad posts and pushing good posts to users. They can also construct a guideline for content quality, given insights from data.
 - What data are you going to use for this? How will you acquire this data?
-> Stack Overflow shares open source data through [stackexchange](https://data.stackexchange.com/). Google Big Query provides a free data
-repository but you have to use Google BigQuery to pull the data with limited quota. 
-Credits to Brent Ozar who converts xml format to SQL Server database that is downloadable [here](https://www.brentozar.com/archive/2015/10/how-to-download-the-stack-overflow-database-via-bittorrent/).
+> Stack Overflow shares all historical post data through [stackexchange](https://data.stackexchange.com/). Google provides free access to the data but you have to query through Google BigQuery to pull the data with limited quota.   
+Credits to Brent Ozar who converts xml format to SQL Server database that can be downloaded from [here](https://www.brentozar.com/archive/2015/10/how-to-download-the-stack-overflow-database-via-bittorrent/).
 - In brief, outline your approach to solving this problem (knowing that this might change later).
 > 1. set up the local data server and pull relevant tables for investigations in python. 
 > 2. perform data wrangling and EDA on numerical features.
 > 3. perform some basic NLP on post titles and body text.
 > 4. perform models to predict quality of posts
-> 5. refine reports
+> 5. refine final reports
 - What are your deliverables? Typically, this would include code, along with a paper and/or a slide deck.
 > A markdown report with codes, reports and data visualization.
