@@ -4,19 +4,10 @@
 ##### _2018/11/28_  
 
 ### Background
-Stack Overflow was used by millions of programmers on daily basis. Over the last 10 years, it provides a platform for 
-programmers to share knowledge by posting questions and answers to programming topics. Large volume of user-generated 
-data builds up the community and leads to its success.  
-There are definitely hidden problems. Since all contents are 100% from user input, the quality of 
-some posts can be questionable. This can be harmful to the whole community in a lot of ways. It creates
-dummy information that is both a waste of resource and a distract to people from more useful information. Some posts
-may be wrong and mis-leading. Some comments are purely people judging and hating each other and is totally irrelevant to topics.
-The user rating system reflects the quality of contents. It provides a good measure of content quality from a collective of reviews - 
-assuming the community is positive and on average have good judgements. With all those merits, it still requires time to accumulate 
-a good number of reviews to fairly reflect the quality. In addition, the scores are heavily associated with the level of activity for
-that topic, thus it is not fairly measuring quality of posts across different area.  
-This report will aim at one specific type of posts - _"questions"_, and will try to explore the association between the quality of
-a question with other features.  
+Stack Overflow features questions and answers on a wide range of topics in computer programming. Questions on Stack Overflow were often among the first search results from Google, and it has been one of the most popular resources for programmers trying to solve a common problem. Large volume of user-generated data builds up the community and leads to its success.  
+There are definitely hidden problems. Since all contents are 100% from user input, the quality of some posts can be questionable. This can be harmful to the whole community in a lot of ways. It creates dummy information that is both a waste of resource and a distract to people from more useful information. Some posts may be wrong and mis-leading. Some comments are purely people judging and hating each other and is totally irrelevant to topics.  
+The user rating system reflects the quality of contents. It provides a good measure of content quality from a collective of reviews - assuming the community is positive and on average have good judgements. With all those merits, it still requires time to accumulate a good number of reviews to fairly reflect the quality. In addition, the scores are heavily associated with the level of activity for that topic, thus it is not fairly measuring quality of posts across different area.  
+This report will aim at one specific type of posts - _"questions"_, and will try to explore the association between the quality of a question with other features.  
 
 ### Study Questions
 - What is the problem you want to solve?  
