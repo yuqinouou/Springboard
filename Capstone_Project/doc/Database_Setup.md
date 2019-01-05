@@ -6,7 +6,7 @@ Before running anything, download microsoft/mssql-server-linux image file. Then,
 - the passcode should meet minimum requirement
 - use -d to run at backend
 ```bash
-docker run -e "HOMEBREW_NO_ENV_FILTERING=1" -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourStrongPassword" -p 1433:1433 --restart always —name db2010 -d microsoft/mssql-server-linux
+docker run -e "HOMEBREW_NO_ENV_FILTERING=1" -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=StrongPassword!" -p 1433:1433 —-name db2017 --restart always -d microsoft/mssql-server-linux
 ```
 2. Check container status
 ```bash
@@ -14,7 +14,11 @@ docker ps -a
 ```
 3. Transfer external MDF file to docker container
 ```bash
-docker cp /Volumes/SharedData/StackOverflow/ db2010:/var/opt/mssql/data
+docker cp /Volumes/DockerDrive/StackOverflow-SQL-Server-201712/StackOverflow_1.mdf db2017:/var/opt/mssql/data
+docker cp /Volumes/DockerDrive/StackOverflow-SQL-Server-201712/StackOverflow_1.mdf db2017:/var/opt/mssql/data
+docker cp /Volumes/DockerDrive/StackOverflow-SQL-Server-201712/StackOverflow_1.mdf db2017:/var/opt/mssql/data
+docker cp /Volumes/DockerDrive/StackOverflow-SQL-Server-201712/StackOverflow_1.mdf db2017:/var/opt/mssql/data
+docker cp /Volumes/DockerDrive/StackOverflow-SQL-Server-201712/StackOverflow_log.ldf db2017:/var/opt/mssql/data
 ```
   
 4. Run `sqlcmd` to query from the docker server.
@@ -36,7 +40,8 @@ The more straightforward approach is to install `sqlcmd` and directly run it in 
 ```bash
 sqlcmd -S localhost -U SA
 ```
-  5. in sqlcmd, create database with mdf/ldf files.
+
+5. in sqlcmd, create database with mdf/ldf files.
 ```SQL
 CREATE DATABASE StackOverflow2010
 ON (FILENAME = '/var/opt/mssql/data/StackOverflow/SQL/StackOverflow2010/StackOverflow2010.mdf'),
@@ -44,7 +49,7 @@ ON (FILENAME = '/var/opt/mssql/data/StackOverflow/SQL/StackOverflow2010/StackOve
 FOR ATTACH
 GO
 ```
-5. Test query to make sure tables are good
+6. Test query to make sure tables are good
 
 Print all tables
 ```SQL
@@ -57,7 +62,7 @@ SELECT TOP (3) * FROM dbo.Users
 GO
 ```
 
-6. Connect from Jupyter Notebook/Python, and conver to CSV
+7. Connect from Jupyter Notebook/Python, and conver to CSV
 
 Load library
 ```python
