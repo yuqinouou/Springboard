@@ -1,51 +1,63 @@
 # Database Setup in Docker
 
-Before running anything, download microsoft/mssql-server-linux image file. Then,
+Before running anything, download microsoft/mssql-server-linux image file. 
+```bash
+docker pull mcr.microsoft.com/mssql/server:latest
+```
+Then,
 
 1. Run SQL Server on docker container with SA access
 - the passcode should meet minimum requirement
 - use -d to run at backend
 ```bash
-docker run -e "HOMEBREW_NO_ENV_FILTERING=1" -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=StrongPassword!" -p 1433:1433 —-name db2017 --restart always -d microsoft/mssql-server-linux
+docker run -e "HOMEBREW_NO_ENV_FILTERING=1" -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=1StrongPassword"\
+  -p 1433:1433 --name db2017 --restart=on-failure:3 \
+  -v ~/Downloads/StackOverflow-SQL-Server-201712:/var/opt/mssql/mydata \
+  -d microsoft/mssql-server-linux:latest
 ```
 2. Check container status
 ```bash
 docker ps -a
 ```
-3. Transfer external MDF file to docker container
+
+3. Transfer MDF/NDF/LDF files to container
+The host folder is already mounted, but somehow cannot be used to build database. The work around is to make a copy
+inside the container so that it has root:root ownership. (There must be better alternative..)
+
 ```bash
-docker cp /Volumes/DockerDrive/StackOverflow-SQL-Server-201712/StackOverflow_1.mdf db2017:/var/opt/mssql/data
-docker cp /Volumes/DockerDrive/StackOverflow-SQL-Server-201712/StackOverflow_1.mdf db2017:/var/opt/mssql/data
-docker cp /Volumes/DockerDrive/StackOverflow-SQL-Server-201712/StackOverflow_1.mdf db2017:/var/opt/mssql/data
-docker cp /Volumes/DockerDrive/StackOverflow-SQL-Server-201712/StackOverflow_1.mdf db2017:/var/opt/mssql/data
-docker cp /Volumes/DockerDrive/StackOverflow-SQL-Server-201712/StackOverflow_log.ldf db2017:/var/opt/mssql/data
+# Run bash inside container
+docker exec -it db2017 "bash"
+# check data files
+ls /var/opt/mssql/mydata -l
+# make copies of all files
+cd /var/opt/mssql
+cp mydata rootdata -R -v
+# check data copies
+ls /var/opt/mssql/rootdata -l
 ```
-  
+
 4. Run `sqlcmd` to query from the docker server.
 
 There are two ways to do it.
 The first way is to run it in bash within docker container
+```
+# bash in container
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 1StrongPassword
+```
+The more straightforward approach is to install `sqlcmd` in host environment and directly run it
 ```bash
-docker exec -it db2010 "bash"
-```
- check data files
-```
-ls var/opt/mssql/data/StackOverflow/SQL/StackOverflow2010
-```
-then run sqlcmd in docker
-```
-/opt/mssql-tools/bin/sqlcmd -S localhost -U SA
-```
-The more straightforward approach is to install `sqlcmd` and directly run it in bash
-```bash
-sqlcmd -S localhost -U SA
+# bash in host
+sqlcmd -S localhost -U SA -P 1StrongPassword
 ```
 
-5. in sqlcmd, create database with mdf/ldf files.
+5. in sqlcmd, create database with mdf/ndf/ldf files.
 ```SQL
-CREATE DATABASE StackOverflow2010
-ON (FILENAME = '/var/opt/mssql/data/StackOverflow/SQL/StackOverflow2010/StackOverflow2010.mdf'),
-(FILENAME = '/var/opt/mssql/data/StackOverflow/SQL/StackOverflow2010/StackOverflow2010_log.ldf')
+CREATE DATABASE StackOverflow2017 ON 
+(NAME = StackOverflow_1, FILENAME = '/var/opt/mssql/rootdata/StackOverflow_1.mdf'), 
+(NAME = StackOverflow_2, FILENAME = '/var/opt/mssql/rootdata/StackOverflow_2.mdf'), 
+(NAME = StackOverflow_3, FILENAME = '/var/opt/mssql/rootdata/StackOverflow_3.mdf'), 
+(NAME = StackOverflow_4, FILENAME = '/var/opt/mssql/rootdata/StackOverflow_4.ndf') 
+LOG ON (NAME = StackOverflow_log, FILENAME = '/var/opt/mssql/rootdata/StackOverflow_log.ldf') 
 FOR ATTACH
 GO
 ```
@@ -53,6 +65,7 @@ GO
 
 Print all tables
 ```SQL
+USE StackOverflow2017
 SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'
 GO
 ```
@@ -102,7 +115,7 @@ sql = 'select ID,AcceptedAnswerId,CreationDate,Body,Title,' +\
 First, using `csv.writer()`
 ```python
 rows = cursor.execute(sql)
-with open('/Volumes/SharedData/StackOverflow/SQL/StackOverflow2010_v2.csv', 'w', newline='') as csvfile:
+with open('/Volumes/SharedData/StackOverflow/SQL/StackOverflow2017.csv', 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow([x[0] for x in cursor.description])  # column headers
     for row in rows:
@@ -111,5 +124,5 @@ with open('/Volumes/SharedData/StackOverflow/SQL/StackOverflow2010_v2.csv', 'w',
 Second, using `pd.read_sql()` then save to csv with `pd.to_csv()`. This would probably need to keep the whole query file in the memory.
 ```python
 data = pd.read_sql(sql, con)
-data.to_csv('/Volumes/SharedData/StackOverflow/SQL/StackOverflow2010.csv')
+data.to_csv('/Volumes/SharedData/StackOverflow/SQL/StackOverflow2017_v2.csv')
 ```
