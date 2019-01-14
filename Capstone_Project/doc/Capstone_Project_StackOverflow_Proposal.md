@@ -1,8 +1,8 @@
 # How Good was a Question Asked?
-### A StackOverflow Content Quality Study Proposal 
+### A _StackOverflow_ Content Quality Study Proposal 
 
-_Yuqin Wei_  
-_2018/11/28_  
+Yuqin Wei  
+2018/11/28   
 
 ### Background
 Stack Overflow features questions and answers on a wide range of topics in computer programming. Questions on Stack Overflow were often among the first search results from Google, and it has been one of the most popular resources for programmers trying to solve a common problem. Large volume of user-generated data builds up the community and leads to its success.  
@@ -13,7 +13,7 @@ This is to propose an investigation aiming at "questions", and to explore the as
 
 ### Study Questions
 - What is the problem you want to solve?  
-	+ The goal is to explain feature importance that describe a "good" question post on StackOverflow.
+	+ The goal is to characterize what kind of question posts are "good" questions on _StackOverflow_.
 - Who is your client and why do they care about this problem? In other words, what will your client DO or DECIDE based on your analysis that they wouldn’t have otherwise?  
 	+ The client is _StackOverflow_. They care about this problem since bad posts can damage the community in multiple ways.
 Given a system to identify bad questions, even they might not directly close the post, they can still providing guidelines for users to improve their post quality through a automated system. 
@@ -22,9 +22,12 @@ Given a system to identify bad questions, even they might not directly close the
 Credits to Brent Ozar who converts xml format to SQL Server database that can be downloaded from [here](https://www.brentozar.com/archive/2015/10/how-to-download-the-stack-overflow-database-via-bittorrent/).
 - In brief, outline your approach to solving this problem (knowing that this might change later).  
 	1. set up the local data server and pull relevant tables for investigations. 
-	2. perform data wrangling and EDA on numerical features.
-	3. perform some basic NLP on post titles and body text. 
-	4. perform basic statistical testing to prove assumptions. 
+	2. familirize with the data by performing data wrangling and EDA.
+		+ Perform data cleaning.
+		+ Identify quality measures that describe popularity of a question, such as question score, time to first answer, number of comments received.
+		+ Construct features that might be strong predictors for question quality, such as time, tags, keywords, title length, etc.  
+		+ Display any other patterns identified from data and come up with a reasonable story.
+	3. perform basic statistical tests to prove assumptions made. 
 	4. perform models to predict quality of posts.
 	5. refine final reports.
 - What are your deliverables? Typically, this would include code, along with a paper and/or a slide deck.  
