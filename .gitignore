@@ -86,4 +86,4 @@ Temporary Items
 .apdisk
 
 # More Ipython
-**/.ipynb_checkpoints/
+**/*.ipynb_checkpoints/
