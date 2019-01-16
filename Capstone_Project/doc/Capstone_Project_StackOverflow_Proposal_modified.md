@@ -32,20 +32,24 @@ Credits to Brent Ozar who converts xml format to SQL Server database that can be
 	+ Query relevant tables for analysis, convert and stored in CSV. 
 2. Data ETL and EDA.
 	+ Extract and investigate potential question quality measures:
-		- time to first question
-		- time to first accepted question
+		- time to first answer
+		- time to first accepted answer
 		- time adjusted score
 		- time adjusted answer counts
-		- time adjusted answer + comment counts
+		- time adjusted comment counts
 		- time adjusted favorate counts
 	+ Extract and investigate potential features predicts quality measures:
 		- day of the week
-		- tags
+		- tags/categories
+		- number of tags
 		- title word count
 		- body word count
+		- internal link to other questions
 		- use of external link
 		- use of formula
 		- use of code chunk
+		- Image files
+		- Use of polite words - 'Please', 'Thank you'
 		- (More)
 	+ Invesigate association between features and quality measures.
 	+ Display any other patterns identified from data and come up with a reasonable story.
