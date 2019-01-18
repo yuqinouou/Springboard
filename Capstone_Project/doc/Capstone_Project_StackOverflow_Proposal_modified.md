@@ -42,12 +42,12 @@ Credits to Brent Ozar who converts xml format to SQL Server database that can be
 		- day of the week
 		- tags/categories
 		- number of tags
-		- title word count
-		- body word count
-		- internal link to other questions
-		- use of external link
-		- use of formula
-		- use of code chunk
+		- title word counts
+		- question mark on title?
+		- number of paragraphs
+		- number of external links
+		- number of code chunks
+		- numer of any other html formatting
 		- Image files
 		- Use of polite words - 'Please', 'Thank you'
 		- (More)
@@ -59,5 +59,5 @@ Credits to Brent Ozar who converts xml format to SQL Server database that can be
 	+ Perform machine learning models to build the association between features and outcomes.
 	+ Extract feature coefficients or feature importance measure to select important factors.
 	+ Run prediction. Identify poor quality posts and make suggestions.
-5. Conduct final report.
+5. Prepare final report and slide deck.
 
