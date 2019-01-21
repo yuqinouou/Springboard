@@ -26,11 +26,11 @@ Here are the links to the relavent [documentation](https://github.com/yuqinouou/
 
 The website has be up and running since 2008. We can see a increasing trend of weekly questions posted, and by 2014 and onwards there seems to be a slowdown.
 
-![All_Year_Trend](/Volumes/DockerDrive/plt/all_year_trend.png)
+![All_Year_Trend](./plt/all_year_trend.png)
 
 We can zoom-in and take a look at hourly post counts with in a week, and find that there are much more posts on weekdays than at weekend. Furthermore, we tested that Mondays and Fridays question posts numbers are significantly lower than other workdays, statistically.
 
-![Weekday_Trend](/Volumes/DockerDrive/plt/weekday_trend.png)
+![Weekday_Trend](./plt/weekday_trend.png)
 
 #### Time to First (Accepted) Answer
 
@@ -39,12 +39,12 @@ it is more realiable to measure time to the accepted answer.
 
 Here displays cumulative distribution for both measures within the first hour after a question posted. The blue curve for 'first answer' and the red curve for 'first accepted answer'. We can see that about 50% of questions get an answer within an hour, and 30% of the total will get the 'best' answer and later on got accepted.
 
-![time1](/Volumes/DockerDrive/plt/time_to_answer_two_var.png)
+![time1](./plt/time_to_answer_two_var.png)
 
 But what we observed above is largely confounded by when those questions were posted. As we can see on the next two plots, the proportion of 'accepted questions' are declining by years. 
 
-![time2](/Volumes/DockerDrive/plt/time_to_answer_1h_by_year.png)
-![time3](/Volumes/DockerDrive/plt/time_to_answer_1d_by_year.png)
+![time2](./plt/time_to_answer_1h_by_year.png)
+![time3](./plt/time_to_answer_1d_by_year.png)
 
 The percentage of questions got a good answer within an hour dropped from above 40% in 2008 to 20% in 2017, and from 60% to 30% within a day. A couple of reasons can contribute to this problem. Growing user base might actually diluted the quality of the content and average user activity. There are centain topics well covered in question posts in the past, then people are running out of good questions on that topic, and result in more duplications and mediocre content.  
 While this can separately be an intersting topic, for this study I later on focused only on posts in 2017, to reduce the influence from secular trend.
@@ -55,17 +55,17 @@ Users are allowed to put tags on the post, so we can keep track of specific area
 
 There are over 50,000 tags even been used, but we can see that over 90% of tags have only been tagged for less than 1,000 times. 
 
-![tag1](/Volumes/DockerDrive/plt/tag_ecdf.png)
+![tag1](./plt/tag_ecdf.png)
 
 I extracted the top popular tags by each year, and we can see the change of popularity.
 
-![tag2](/Volumes/DockerDrive/plt/tag_top10.png)
+![tag2](./plt/tag_top10.png)
 
 `C#` was once the most popular, but was replaced by `java`, and then `javascript` in 2013. `java` and `php` are all-time favorites. `python` jumped all the way to the second place in 2017!
 
 On the next chart, I picked the top 30 most popular tags and we can visualize how often they've been used by time.
 
-![tag3](/Volumes/DockerDrive/plt/tag_top30.png)
+![tag3](./plt/tag_top30.png)
 
 A lot interesing stories we can read from the chart. 
 
@@ -90,7 +90,7 @@ The folloing features were extracted with regular expression:
 - Is the title a statement or a question?
 - Any use of 'polite' manner words in text.
 
-![txt](/Volumes/DockerDrive/plt/txt_features.png)
+![txt](./plt/txt_features.png)
 
 There are about 34% of posts using a 'question' title, and 30% of posts contain phrases such as 'thank' and 'appreciate'.  
 
@@ -112,7 +112,7 @@ Sunday|4011
 
 First I drawed a bar chart with confidence interval. We can see that Monday and Friday confidence interval overlaps strongly, while both are way below other workdays.
 
-![txt](/Volumes/DockerDrive/plt/stats1.png)
+![txt](./plt/stats1.png)
 
 Two t-test were performed to compare Monday vs. Friday and Monday&Friday vs. other days.  
 
@@ -127,7 +127,7 @@ So we failed to reject the first hypothesis, meaning that there doesn't seem to 
 
 34% of question posts using a 'question' as the title while the remaining 66% are using a 'statement' title. That might help to attract more readers if they find the same question through search engine. But is that difference statistically real?
 
-![txt](/Volumes/DockerDrive/plt/stats2.png)
+![txt](./plt/stats2.png)
 
 Question Title or Statement Title?|Answered within 1h|No answer with 1h
 ---|---|---
@@ -173,3 +173,12 @@ But I think this implies we missed some important features that confounded the r
 #### Classification Model
 (Still working on it)
 Logistic Regression with AUC only .68... But i see improvement on a more complicated model, like randomForest, still testing on it
+
+### Conclusions
+#### Main Findings
+#### Suggestions to StackOverflow Management
+
+### Future work
+
+- NLP on Text Data, Topic Analysis;
+- Find better features for prediction model;
