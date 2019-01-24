@@ -144,40 +144,54 @@ First, I tried to running a clustering model only using features we extracted fr
 
 After pre-processing those features with scaling and PCA, a Kmean model was fitted, with n_clusters = 5, when we observe inertia descreased much slower for more than 5 clusters.
 
-
-| label | size | paragraph_count | code_count | pre_count | img_count | href_count | title_count | is_question | is_thankful |
-|-------|------|-----------------|------------|-----------|-----------|------------|-------------|-------------|-------------|
-| 0 | 101,812 | 7.32 | 2.34 | 1.17 | 1.84 | 2.64 | 6.54 | 0.32 | 0.33 |
-| 1 | 847,731 | 3.5 | 1.83 | 1.09 | 0.06 | 0.21 | 5.75 | 0.0 | 0.0 |
-| 2 | 578,392 | 4.29 | 1.64 | 1.09 | 0.07 | 0.22 | 6.33 | 0.32 | 1.0 |
-| 3 | 299,060 | 8.41 | 7.32 | 3.7 | 0.06 | 0.32 | 6.45 | 0.25 | 0.3 |
-| 4 | 498,302 | 3.29 | 1.83 | 0.98 | 0.06 | 0.21 | 7.18 | 1.0 | 0.0 |
-
+| label | size |  paragraph_count | code_count | pre_count | tag_count | img_count | href_count | title_count | is_question | is_thankful |
+|-------|------|-----------------|------------|-----------|-----------|-----------|------------|-------------|-------------|-------------|
+| 0 | 839,588 | 3.44 | 1.8 | 1.09 | 6.91 | 0.06 | 0.2 | 5.75 | 0.0 | 0.0 |
+| 1 | 330,486 | 8.48 | 7.1 | 3.47 | 21.49 | 0.06 | 0.34 | 6.47 | 0.27 | 0.31 |
+| 2 |  99,203 | 7.28 | 2.25 | 1.15 | 12.33 | 1.86 | 2.64 | 6.54 | 0.32 | 0.33 |
+| 3 | 565,753 | 4.17 | 1.59 | 1.08 | 7.49 | 0.07 | 0.22 | 6.31 | 0.31 | 1.0 |
+| 4 | 490,267 | 3.21 | 1.75 | 0.96 | 6.48 | 0.06 | 0.21 | 7.18 | 1.0 | 0.01 |
 
 By checking mean values for each feature, we can get an idea of different styles of question posting:  
 
-   - Level 0. wordy questions with a lot paragraphs and code chunks.  
-   - Level 1. questions with narritive title and no thankful words.  
-   - Level 2. questions with question title and no thankful words.  
-   - Level 3. wordy questions with a lot paragraphs, less code chunks but more images and external links.  
-   - Level 4. questions with good manner words.  
+- Cluster 0. questions with statement title and no thankful words.  
+- Cluster 1. wordy questions with a lot paragraphs and code chunks.  
+- Cluster 2. wordy questions with a lot paragraphs, less code chunks but more images and external links.  
+- Cluster 3. questions with thankful workds.  
+- Cluster 4. questions with question title and no thankful words.  
 
 ![cluster1](./plt/cluster1.png)
 ![cluster2](./plt/cluster2.png)
 
-Looking at time to first accepted answer, Level 0 category has different trend comparing with others. It takes a while to get a quality answer, but after 45 minute mark, it will be the most likely to get answered.  
-
-Other categories has approximately the same shape of the curve, but different proportion of getting an answer, with Level 2 questions at the top, followed by Level 1 and Level 4. Level 3 is the least likely category.  
-
-Comparing 1 to 2, it is more appreciated if the title is a question not a statement. Comparing 1,2 with 4, we got the feeling that it's actually unnecessary to be 'polite'. To me this is counter-intuitive, no one hates good manners.  
+Cluster 0 and Cluster 4 is comparible. It seems using question title will be helpful increasing the chance to get an quality answer. However both groups doing better than cluster 3.  
 
 This implies we missed some important features that confounded the result. For example, less-experienced programmers might be less confident in their narritive to the questions, and being extremely polite. That's how we might observe the negative association between being polite and question being bad, but it's not causal, and the real cause is less-experienced users.  
 
-Finally, when we look at Level 3, if a lot images and hyperlinks are added to a post, it actually does damage and less likely to get an answer. However, if we extend the time window to one day, Level 3 question will get more answers. It could be those questions are usually full of information, and takes longer to get an good answer, but there is nothing wrong with the question itself.
+Cluster 1 and 2 has the same pattern: while they might not have caught most attention within the first hour, they got more answers later on and growing even faster than other clusters. The could due to readability of those long posts. The difference is that cluster 1 got much more questions answered than cluster 2, meaning that plots and links are not as helpful as having more code chunks. 
 
 #### Classification Model
-(Still working on it)
-Logistic Regression with AUC only .68... But i see improvement on a more complicated model, like randomForest, still testing on it
+
+To further investigate the association between features in predicting time to answers, we build a classfication model and trying to predict how likely a question might receive a quality answer within a day.  
+
+After trying a handful of models without careful parameter tuning, I pick logistic regression as the final model. It performs equivalently well comparing to other models, and usually it's more explanatory with coefficients.  
+
+Final model was using sklearn.linear_model.SGDClassifier tuning on alpha, l1_ratio. The performance score used is weighted average f1 score so the model can get a balance of predicting positive and negative cases. 5-folds cross-validation were performed on 70% of data.
+
+Here is the performance of final model on the test set.
+
+| Final Model | Average F1 | Accuracy | ROC_AUC |
+|-------------|------------|----------|---------|
+| {'alpha': 0.001, 'l1_ratio': 1}	 | 0.617 | 0.61 | 0.61 |
+
+Frankly, this is not a model with great performance. We can still read into it and get some insights. Take a look at coefficients.
+
+![coef1](./plt/coef1.png)
+![coef2](./plt/coef2.png)
+
+For the derived features from text, we can see it's good to have more code chunks, pre-formatting and imagies, and it's not suggeted to have too many paragraphs or too many external links. It is good to state you question as an actual question, not in a statement. It doesn't matter that much when it was posted. 
+
+The coefficient by tags are actually varying quite much. So questions in different topic area definitely have different levels of popularity.
+
 
 ### Conclusions
 #### Main Findings
@@ -187,3 +201,4 @@ Logistic Regression with AUC only .68... But i see improvement on a more complic
 
 - NLP on Text Data, Topic Analysis;
 - Find better features for prediction model;
+- Readability
