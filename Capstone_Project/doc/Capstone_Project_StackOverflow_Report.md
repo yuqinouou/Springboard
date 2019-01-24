@@ -161,14 +161,19 @@ By checking mean values for each feature, we can get an idea of different styles
    - Level 2. questions with question title and no thankful words.  
    - Level 3. wordy questions with a lot paragraphs, less code chunks but more images and external links.  
    - Level 4. questions with good manner words.  
-    
+
+![cluster1](./plt/cluster1.png)
+![cluster2](./plt/cluster2.png)
+
 Looking at time to first accepted answer, Level 0 category has different trend comparing with others. It takes a while to get a quality answer, but after 45 minute mark, it will be the most likely to get answered.  
 
 Other categories has approximately the same shape of the curve, but different proportion of getting an answer, with Level 2 questions at the top, followed by Level 1 and Level 4. Level 3 is the least likely category.  
 
 Comparing 1 to 2, it is more appreciated if the title is a question not a statement. Comparing 1,2 with 4, we got the feeling that it's actually unnecessary to be 'polite'. To me this is counter-intuitive, no one hates good manners.  
 
-But I think this implies we missed some important features that confounded the result. For example, less-experienced programmers might be less confident in their narritive to the question, and being extremely polite, while it can also be associated with question quality issues such as duplications or unclear question description. Finally, when we look at Level 3, if a lot images and hyperlinks are added to a post, it actually does damage and less likely to get an answer. However, if we extend the time window to one day, Level 3 question will get more answers. It could be those questions are usually full of information, and takes longer to get an good answer, but there is nothing wrong with the question itself.
+This implies we missed some important features that confounded the result. For example, less-experienced programmers might be less confident in their narritive to the questions, and being extremely polite. That's how we might observe the negative association between being polite and question being bad, but it's not causal, and the real cause is less-experienced users.  
+
+Finally, when we look at Level 3, if a lot images and hyperlinks are added to a post, it actually does damage and less likely to get an answer. However, if we extend the time window to one day, Level 3 question will get more answers. It could be those questions are usually full of information, and takes longer to get an good answer, but there is nothing wrong with the question itself.
 
 #### Classification Model
 (Still working on it)
